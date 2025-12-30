@@ -1,0 +1,67 @@
+{
+	"info": {
+		"_postman_id": "88944f53-80a2-44c1-871a-5fca62ae2620",
+		"name": "Bank account postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47500770",
+		"_collection_link": "https://samy-boumali-8850462.postman.co/workspace/Testing101's-Workspace~915cbacb-e174-40ca-8287-8210ada42985/collection/47500770-88944f53-80a2-44c1-871a-5fca62ae2620?action=share&source=collection_link&creator=47500770"
+	},
+	"item": [
+		{
+			"name": "Get balance",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "AccountNumber",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "MonthlyReview",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "AuthorizedOverwithdrawal",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Deposit",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Withdraw",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Change authorized over withdrawal",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
