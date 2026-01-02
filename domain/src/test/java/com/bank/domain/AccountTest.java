@@ -21,7 +21,7 @@ public class AccountTest {
 
     @Test
     @DisplayName("Creating an account without parameters")
-    public void accountCreationWithoutParametersTest() {
+    void accountCreationWithoutParametersTest() {
         Account account = new Account();
         assertNotNull(account.getAccountNumber());
         assertEquals(BigDecimal.ZERO, account.getBalance());
@@ -30,7 +30,7 @@ public class AccountTest {
 
     @Test
     @DisplayName("Creating an account with account number")
-    public void accountCreationWithAccountNumberTest() {
+    void accountCreationWithAccountNumberTest() {
         String accountNumber = "123456";
         Account account = new Account(accountNumber);
         assertEquals(accountNumber, account.getAccountNumber());
@@ -39,7 +39,7 @@ public class AccountTest {
 
     @Test
     @DisplayName("Creating an account with account number and initial balance")
-    public void accountCreationWithAccountNumberAndInitialBalanceTest() {
+    void accountCreationWithAccountNumberAndInitialBalanceTest() {
         String accountNumber = "123456";
         BigDecimal balance = BigDecimal.valueOf(50);
         Account account = new Account(accountNumber, balance);
@@ -50,7 +50,7 @@ public class AccountTest {
 
     @Test
     @DisplayName("Account deposit going OK")
-    public void accountDepositOK() {
+    void accountDepositOK() {
         Account account = new Account();
         assertEquals(BigDecimal.ZERO, account.getBalance());
 
@@ -60,7 +60,7 @@ public class AccountTest {
 
     @Test
     @DisplayName("Account deposit going KO, throwing exception")
-    public void accountDepositKO() {
+    void accountDepositKO() {
         Account account = new Account();
         assertEquals(BigDecimal.ZERO, account.getBalance());
         assertThrows(IllegalArgumentException.class, () -> account.deposit(DATE, BigDecimal.valueOf(-50)));
@@ -69,7 +69,7 @@ public class AccountTest {
 
     @Test
     @DisplayName("Account withdral going OK")
-    public void accountWithdrawaltOK() {
+    void accountWithdrawaltOK() {
         Account account = new Account();
         assertEquals(BigDecimal.ZERO, account.getBalance());
 
@@ -82,7 +82,7 @@ public class AccountTest {
 
     @Test
     @DisplayName("Account withdral going KO, amount > balance or negative")
-    public void accountWithdrawalKO() {
+    void accountWithdrawalKO() {
         Account account = new Account();
         account.deposit(DATE, BigDecimal.valueOf(50));
         assertEquals(BigDecimal.valueOf(50), account.getBalance());
@@ -93,7 +93,7 @@ public class AccountTest {
 
     @Test
     @DisplayName("Account overwithdral going OK")
-    public void accountOverwithdrawalOK() {
+    void accountOverwithdrawalOK() {
         Account account = new Account();
         account.deposit(DATE, BigDecimal.valueOf(50));
         assertEquals(BigDecimal.valueOf(50), account.getBalance());
@@ -113,7 +113,7 @@ public class AccountTest {
 
     @Test
     @DisplayName("Account overwithdral going KO")
-    public void accountOverwithdrawalKO() {
+    void accountOverwithdrawalKO() {
         Account account = new Account();
         account.deposit(DATE, BigDecimal.valueOf(50));
         assertEquals(BigDecimal.valueOf(50), account.getBalance());
@@ -135,7 +135,7 @@ public class AccountTest {
 
     @Test
     @DisplayName("Getting the operations of the last 30days")
-    public void accountGetOperations() {
+    void accountGetOperations() {
         Account account = new Account();
 
         account.deposit(DATE.minusDays(35), BigDecimal.valueOf(50));

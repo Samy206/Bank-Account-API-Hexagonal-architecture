@@ -19,7 +19,7 @@ public class SavingAccountTest {
 
     @Test
     @DisplayName("Creating a saving account with a max balance, and withdraw a part of it")
-    public void savingAccountWithdrawalOK() {
+    void savingAccountWithdrawalOK() {
         SavingAccount savingAccount = new SavingAccount(BigDecimal.valueOf(100));
         assertEquals(BigDecimal.valueOf(100), savingAccount.getMaxBalance());
 
@@ -33,7 +33,7 @@ public class SavingAccountTest {
 
     @Test
     @DisplayName("Creating a saving account with a max balance, and deposit more then authorized")
-    public void savingAccountDepositKO() {
+    void savingAccountDepositKO() {
         SavingAccount savingAccount = new SavingAccount(BigDecimal.valueOf(100));
         assertEquals(BigDecimal.valueOf(100), savingAccount.getMaxBalance());
         assertThrows(IllegalArgumentException.class, () -> savingAccount.deposit(DATE, BigDecimal.valueOf(120)));
@@ -42,7 +42,7 @@ public class SavingAccountTest {
 
     @Test
     @DisplayName("Creating a saving account with a max balance, and withdraw more than authorized")
-    public void savingAccountWithdrawalKO() {
+    void savingAccountWithdrawalKO() {
         SavingAccount savingAccount = new SavingAccount(BigDecimal.valueOf(100));
         assertEquals(BigDecimal.valueOf(100), savingAccount.getMaxBalance());
 
@@ -55,7 +55,7 @@ public class SavingAccountTest {
 
     @Test
     @DisplayName("Getting the operations of the last 30days")
-    public void accountGetOperations() {
+    void accountGetOperations() {
         SavingAccount account = new SavingAccount(BigDecimal.valueOf(1000));
 
         account.deposit(DATE.minusDays(35), BigDecimal.valueOf(50));
