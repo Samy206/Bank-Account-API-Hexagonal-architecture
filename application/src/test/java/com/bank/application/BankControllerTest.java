@@ -19,7 +19,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 
-@SpringBootTest
+@SpringBootTest(classes = com.bank.BankApplication.class)
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class BankControllerTest {

@@ -1,6 +1,6 @@
-com/bank/Main.class
-com/bank/domain/enums/AccountType.class
-com/bank/domain/Operation.class
-com/bank/domain/MonthlyReview.class
-com/bank/domain/SavingAccount.class
-com/bank/domain/Account.class
+com\bank\domain\MonthlyReview.class
+com\bank\domain\enums\AccountType.class
+com\bank\Main.class
+com\bank\domain\SavingAccount.class
+com\bank\domain\Account.class
+com\bank\domain\Operation.class

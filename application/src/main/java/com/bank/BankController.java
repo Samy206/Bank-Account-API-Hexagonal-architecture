@@ -19,8 +19,7 @@ import com.bank.domain.Operation;
 @RequestMapping("bank/account")
 public class BankController {
 
-    @Autowired
-    private Account bankAccount;
+    private Account bankAccount = new Account();
 
     /**
      * Get request : searching for account number

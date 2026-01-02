@@ -8,7 +8,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.5.8</version>
-		<relativePath/> z
+		<relativePath/> 
 	</parent>
 
     <groupId>com.bank</groupId>
@@ -53,6 +53,7 @@
 			<artifactId>spring-boot-dependencies</artifactId>
 			<type>pom</type>
 			<scope>import</scope>
+			<version>3.4.6</version>
 		</dependency>
 
 		<dependency>
