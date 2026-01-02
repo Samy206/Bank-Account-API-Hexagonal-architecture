@@ -5,6 +5,7 @@ import com.bank.domain.enums.AccountType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -19,64 +20,64 @@ public class SavingAccountTest {
     @Test
     @DisplayName("Creating a saving account with a max balance, and withdraw a part of it")
     public void savingAccountWithdrawalOK() {
-        SavingAccount savingAccount = new SavingAccount(100);
-        assertEquals(100, savingAccount.getMaxBalance());
+        SavingAccount savingAccount = new SavingAccount(BigDecimal.valueOf(100));
+        assertEquals(BigDecimal.valueOf(100), savingAccount.getMaxBalance());
 
-        double balance = savingAccount.deposit(DATE, 70);
-        assertEquals(70, balance);
+        BigDecimal balance = savingAccount.deposit(DATE, BigDecimal.valueOf(70));
+        assertEquals(BigDecimal.valueOf(70), balance);
 
-        balance = savingAccount.withdraw(DATE, 50, CASH);
-        assertEquals(20, balance);
+        balance = savingAccount.withdraw(DATE, BigDecimal.valueOf(50), CASH);
+        assertEquals(BigDecimal.valueOf(20), balance);
 
     }
 
     @Test
     @DisplayName("Creating a saving account with a max balance, and deposit more then authorized")
     public void savingAccountDepositKO() {
-        SavingAccount savingAccount = new SavingAccount(100);
-        assertEquals(100, savingAccount.getMaxBalance());
-        assertThrows(IllegalArgumentException.class, () -> savingAccount.deposit(DATE, 120));
+        SavingAccount savingAccount = new SavingAccount(BigDecimal.valueOf(100));
+        assertEquals(BigDecimal.valueOf(100), savingAccount.getMaxBalance());
+        assertThrows(IllegalArgumentException.class, () -> savingAccount.deposit(DATE, BigDecimal.valueOf(120)));
 
     }
 
     @Test
     @DisplayName("Creating a saving account with a max balance, and withdraw more than authorized")
     public void savingAccountWithdrawalKO() {
-        SavingAccount savingAccount = new SavingAccount(100);
-        assertEquals(100, savingAccount.getMaxBalance());
+        SavingAccount savingAccount = new SavingAccount(BigDecimal.valueOf(100));
+        assertEquals(BigDecimal.valueOf(100), savingAccount.getMaxBalance());
 
-        double balance = savingAccount.deposit(DATE, 70);
-        assertEquals(70, balance);
+        BigDecimal balance = savingAccount.deposit(DATE, BigDecimal.valueOf(70));
+        assertEquals(BigDecimal.valueOf(70), balance);
 
-        assertThrows(IllegalArgumentException.class, () -> savingAccount.withdraw(DATE, 80, CASH));
+        assertThrows(IllegalArgumentException.class, () -> savingAccount.withdraw(DATE, BigDecimal.valueOf(80), CASH));
 
     }
 
     @Test
     @DisplayName("Getting the operations of the last 30days")
     public void accountGetOperations() {
-        SavingAccount account = new SavingAccount(1000);
+        SavingAccount account = new SavingAccount(BigDecimal.valueOf(1000));
 
-        account.deposit(DATE.minusDays(35), 50);
-        account.deposit(DATE.minusDays(33), 40);
-        account.deposit(DATE.minusDays(25), 20);
-        account.withdraw(DATE.minusDays(23), 10, "Starbucks");
-        account.deposit(DATE.minusDays(22), 30);
-        account.withdraw(DATE.minusDays(15), 22, "League of Legends Skin");
-        account.deposit(DATE.minusDays(10), 500);
+        account.deposit(DATE.minusDays(35), BigDecimal.valueOf(50));
+        account.deposit(DATE.minusDays(33), BigDecimal.valueOf(40));
+        account.deposit(DATE.minusDays(25), BigDecimal.valueOf(20));
+        account.withdraw(DATE.minusDays(23), BigDecimal.valueOf(10), "Starbucks");
+        account.deposit(DATE.minusDays(22), BigDecimal.valueOf(30));
+        account.withdraw(DATE.minusDays(15), BigDecimal.valueOf(22), "League of Legends Skin");
+        account.deposit(DATE.minusDays(10), BigDecimal.valueOf(500));
 
         MonthlyReview monthlyReview = account.getMonthlyOperations();
         List<Operation> operations = monthlyReview.getOperations();
 
-        assertEquals(500, operations.get(0).getAmount());
-        assertEquals(22, operations.get(1).getAmount());
-        assertEquals(30, operations.get(2).getAmount());
-        assertEquals(10, operations.get(3).getAmount());
-        assertEquals(20, operations.get(4).getAmount());
+        assertEquals(BigDecimal.valueOf(500), operations.get(0).getAmount());
+        assertEquals(BigDecimal.valueOf(22), operations.get(1).getAmount());
+        assertEquals(BigDecimal.valueOf(30), operations.get(2).getAmount());
+        assertEquals(BigDecimal.valueOf(10), operations.get(3).getAmount());
+        assertEquals(BigDecimal.valueOf(20), operations.get(4).getAmount());
 
         assertEquals(AccountType.SAVING_ACCOUNT, monthlyReview.getAccountType());
         
-        assertEquals(608, monthlyReview.getBalance());
+        assertEquals(BigDecimal.valueOf(608), monthlyReview.getBalance());
         
     }
 

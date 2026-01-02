@@ -5,22 +5,22 @@ import java.util.stream.Collectors;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import com.bank.domain.enums.AccountType;
 
 public class Account implements Comparable {
 
     protected String accountNumber;
-    protected float balance;
+    protected BigDecimal balance = BigDecimal.ZERO;
 
     protected List<Operation> operations;
 
     /*
      * Explicit definition of the overdraw
     */
-    protected float authorizedOverdraw;
-    protected float overdraw;
+    protected BigDecimal authorizedOverdraw;
+    protected BigDecimal overdraw;
 
     /**
      * Account creation without parameters : we generate a random account number with an epmty balance
@@ -28,8 +28,8 @@ public class Account implements Comparable {
     public Account() {
         Integer randomNumber = (int) (( Math.random() + 1 ) * 1000000);
         this.accountNumber = randomNumber.toString();
-        this.balance = 0;
-        this.authorizedOverdraw = 0;
+        this.balance = new BigDecimal(0);
+        this.authorizedOverdraw = new BigDecimal(0);
         this.operations = new ArrayList<>();
     }
 
@@ -38,17 +38,17 @@ public class Account implements Comparable {
     */
     public Account(String accountNumber) {
         this.accountNumber = accountNumber;
-        this.balance = 0;
-        this.authorizedOverdraw = 0;
+        this.balance = new BigDecimal(0);
+        this.authorizedOverdraw = new BigDecimal(0);
         this.operations = new ArrayList<>();
     }
 
     /**
      * Account creation with an account number and a balance
     */
-    public Account(String accountNumber, float initialBalance) {
+    public Account(String accountNumber, BigDecimal initialBalance) {
         this.accountNumber = accountNumber;
-        this.authorizedOverdraw = 0;
+        this.authorizedOverdraw = new BigDecimal(0);;
         this.operations = new ArrayList<>();
         deposit(LocalDate.now(), initialBalance);
     }
@@ -57,15 +57,15 @@ public class Account implements Comparable {
         return accountNumber;
     }
 
-    public float getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public float getAuthorizedOverdraw() {
+    public BigDecimal getAuthorizedOverdraw() {
         return authorizedOverdraw;
     }
 
-    public float getOverdraw() {
+    public BigDecimal getOverdraw() {
         return overdraw;
     }
 
@@ -73,8 +73,8 @@ public class Account implements Comparable {
      * Setting up authorized overwithdrawal
      * @param authorizedOverdraw
      */
-    public void setAuthorizedOverdraw(float authorizedOverdraw) {
-        if (authorizedOverdraw < 0) {
+    public void setAuthorizedOverdraw(BigDecimal authorizedOverdraw) {
+        if (authorizedOverdraw.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("The authorized overdraw have to be positive");
         }
         this.authorizedOverdraw = authorizedOverdraw;
@@ -86,11 +86,11 @@ public class Account implements Comparable {
      * @return The new balance
      * @throws IllegalArgumentException if the amount is not positive
     */
-    public float deposit(LocalDate date, float amount) throws IllegalArgumentException {
-        if (amount <= 0) {
+    public BigDecimal deposit(LocalDate date, BigDecimal amount) throws IllegalArgumentException {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Deposit amount must be positive");
         }
-        this.balance += amount;
+        this.balance = this.balance.add(amount);
  
         Operation operation = new Operation(date, amount, "New deposit");
         operations.add(operation);
@@ -104,14 +104,14 @@ public class Account implements Comparable {
      * @return The new balance
      * @throws IllegalArgumentException if the amount is not positive or superior to the balance (plus de the authorized overdrawal)
     */
-    public float withdraw(LocalDate date, float amount, String label) throws IllegalArgumentException {
-        if (amount <= 0 
+    public BigDecimal withdraw(LocalDate date, BigDecimal amount, String label) throws IllegalArgumentException {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0 
             || 
-            amount > ( this.balance + authorizedOverdraw) 
+            amount.compareTo(this.balance.add(authorizedOverdraw)) > 0
         ) {
             throw new IllegalArgumentException("Withdraw amount must be positive and inferior to balance");
         }
-        this.balance -= amount;
+        this.balance = this.balance.subtract(amount);
 
         Operation operation = new Operation(date, amount, label);
         operations.add(operation);
@@ -143,7 +143,7 @@ public class Account implements Comparable {
         if (this == obj) return 0;
         if (obj == null || getClass() != obj.getClass()) return -1;
         Account account = (Account) obj;
-        return account.getBalance() > this.balance ? 1 : (account.getBalance() < this.balance ? -1 : 0);
+        return account.getBalance().compareTo(balance);
     }
 
     @Override

@@ -1,15 +1,35 @@
 package com.bank.domain;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Operation {
 
     private LocalDate date;
-    private float amount;
+    private BigDecimal amount;
     private String label;
 
-    public Operation(LocalDate date, float amount, String label) {
+    // Default constructor required for Jackson deserialization
+    public Operation() {
+        this.date = LocalDate.now();
+    }
+
+    public Operation(LocalDate date, BigDecimal amount, String label) {
+        if(date == null) {
+            setTodaysDate();
+        }
+
         this.date = date;
+        this.amount = amount;
+        this.label = label;
+    }
+
+    private void setTodaysDate() {
+        this.date = LocalDate.now();
+    }
+
+    public Operation(BigDecimal amount, String label) {
+        this.date = LocalDate.now();
         this.amount = amount;
         this.label = label;
     }
@@ -22,7 +42,7 @@ public class Operation {
         date = localDate;
     }
 
-    public float getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 

@@ -1,5 +1,6 @@
 package com.bank.domain;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
@@ -9,22 +10,22 @@ import com.bank.domain.enums.AccountType;
 
 public class SavingAccount extends Account{
     
-    private float maxBalance;
+    private BigDecimal maxBalance;
 
     /**
      * Creating a saving account with a max balance
      * @param maxBalance
      */
-    public SavingAccount(float maxBalance) {
+    public SavingAccount(BigDecimal maxBalance) {
         super();
         this.maxBalance = maxBalance;
     }
 
-    public void setMaxBalance(float maxBalance) {
+    public void setMaxBalance(BigDecimal maxBalance) {
         this.maxBalance = maxBalance;
     }
 
-    public float getMaxBalance() {
+    public BigDecimal getMaxBalance() {
         return maxBalance;
     }
 
@@ -34,8 +35,8 @@ public class SavingAccount extends Account{
      * @param authorizedOverdraw
      */
     @Override
-    public void setAuthorizedOverdraw(float authorizedOverdraw) {
-        if (authorizedOverdraw != 0) {
+    public void setAuthorizedOverdraw(BigDecimal authorizedOverdraw) {
+        if (authorizedOverdraw != BigDecimal.ZERO) {
             throw new IllegalArgumentException("No authorized overwithdawal with asaving account");
         }
         this.authorizedOverdraw = authorizedOverdraw;
@@ -48,14 +49,14 @@ public class SavingAccount extends Account{
      * @throws IllegalArgumentException if the amount is not positive or if it exceeds the max limit
      */
     @Override
-    public float deposit(LocalDate date, float amount) throws IllegalArgumentException {
-        if (amount <= 0) {
+    public BigDecimal deposit(LocalDate date, BigDecimal amount) throws IllegalArgumentException {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Deposit amount must be positive");
-        } else if ( (balance + amount) > maxBalance) {
+        } else if ( (balance.add(amount)) .compareTo(maxBalance) > 0) {
             throw new IllegalArgumentException("The max balance will be exceeded");
         }
 
-        this.balance += amount;
+        this.balance = this.balance.add(amount);
 
         Operation operation = new Operation(date, amount, "New deposit");
         operations.add(operation);
@@ -71,10 +72,10 @@ public class SavingAccount extends Account{
      * @throws IllegalArgumentException if the amount is not positive or superior to the balance
     */
     @Override
-    public float withdraw(LocalDate date, float amount, String label) throws IllegalArgumentException {
-        if (amount <= 0 
+    public BigDecimal withdraw(LocalDate date, BigDecimal amount, String label) throws IllegalArgumentException {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0 
             || 
-            amount > this.balance
+            amount.compareTo(this.balance) > 0
         ) {
             throw new IllegalArgumentException("Withdraw amount must be positive and inferior to balance");
         }
@@ -82,7 +83,7 @@ public class SavingAccount extends Account{
         Operation operation = new Operation(date, amount, label);
         operations.add(operation);
 
-        this.balance -= amount;
+        this.balance = this.balance.subtract(amount);
         return this.balance;
     }
 

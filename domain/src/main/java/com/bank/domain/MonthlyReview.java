@@ -1,15 +1,16 @@
 package com.bank.domain;
+import java.math.BigDecimal;
 import java.util.List;
 import com.bank.domain.enums.AccountType;
 
 public class MonthlyReview {
 
     private List<Operation> operations;
-    private double balance;
+    private BigDecimal balance;
 
     private AccountType accountType;
 
-    public MonthlyReview(List<Operation> operations, double balance, AccountType accountType) {
+    public MonthlyReview(List<Operation> operations, BigDecimal balance, AccountType accountType) {
         this.operations = operations;
         this.balance = balance;
         this.accountType = accountType;
@@ -20,7 +21,7 @@ public class MonthlyReview {
         return operations;
     }
 
-    public double getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
