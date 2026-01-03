@@ -17,6 +17,8 @@
 
     <modules>
         <module>domain</module>
+        <module>adapters</module>
+        <module>infrastructure</module>
         <module>application</module>
     </modules>
     

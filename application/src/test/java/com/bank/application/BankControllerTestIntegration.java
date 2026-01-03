@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.springframework.http.MediaType;
 
 
-@SpringBootTest(classes = com.bank.BankApplication.class)
+@SpringBootTest(classes = com.bank.adapters.BankApplication.class)
 @AutoConfigureMockMvc
 public class BankControllerTestIntegration {
 
@@ -51,7 +51,8 @@ public class BankControllerTestIntegration {
     }
 
 
-    @Test
+    @SuppressWarnings("null")
+@Test
     @DisplayName("put deposit through api call")
     void putDepositTestOK() throws Exception {
         
@@ -64,7 +65,8 @@ public class BankControllerTestIntegration {
                 .andExpect(jsonPath("$['New balance']").value(99.99));
     }
 
-    @Test
+    @SuppressWarnings("null")
+@Test
     @DisplayName("put deposit of an incorrect amout through api call")
     void putDepositTestKO() throws Exception {
         
@@ -86,7 +88,8 @@ public class BankControllerTestIntegration {
     }
 
 
-    @Test
+    @SuppressWarnings("null")
+@Test
     @DisplayName("get withdrawal through api call")
     void getWithdrawalTestOK() throws Exception {
         
@@ -105,7 +108,8 @@ public class BankControllerTestIntegration {
                 .andExpect(jsonPath("$['New balance']").value(0));
     }
 
-    @Test
+    @SuppressWarnings("null")
+@Test
     @DisplayName("get withdrawal of an incorrect amount through api call")
     void getWithdrawalTestKO() throws Exception {
         
@@ -134,7 +138,8 @@ public class BankControllerTestIntegration {
                 .andExpect(jsonPath("$['Error']").value("The amount you entered is either null, negative, or greater than the actual balance"));        
     }
 
-    @Test
+    @SuppressWarnings("null")
+@Test
     @DisplayName("update overwithdrawal through api call OK, and check that the update has been made")
     void putOverwithdrawalTestOK() throws Exception {
         
@@ -152,7 +157,8 @@ public class BankControllerTestIntegration {
                 .andExpect(jsonPath("$['Authorized overwithdrawal']").value(99.99));
     }
 
-    @Test
+    @SuppressWarnings("null")
+@Test
     @DisplayName("update overwithdrawal through api call KO")
     void putOverwithdrawalTestKO() throws Exception {
         

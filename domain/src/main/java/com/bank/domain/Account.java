@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import com.bank.domain.enums.AccountType;
 
-public class Account implements Comparable {
+public class Account implements Comparable<Account> {
 
     protected String accountNumber;
     protected BigDecimal balance = BigDecimal.ZERO;
@@ -139,10 +139,8 @@ public class Account implements Comparable {
     }
 
     @Override
-    public int compareTo(Object obj) {
-        if (this == obj) return 0;
-        if (obj == null || getClass() != obj.getClass()) return -1;
-        Account account = (Account) obj;
+    public int compareTo(Account account) {
+        if (this == account) return 0;
         return account.getBalance().compareTo(balance);
     }
 

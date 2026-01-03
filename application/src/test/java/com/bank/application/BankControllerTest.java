@@ -19,13 +19,14 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 
-@SpringBootTest(classes = com.bank.BankApplication.class)
+@SpringBootTest(classes = com.bank.adapters.BankApplication.class)
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class BankControllerTest {
 
     private BankController bankController = new BankController();
 
+    @SuppressWarnings("null")
     @Test
     @DisplayName("Getting account number through controller method call")
     void getAccountNumberTestOK() throws Exception {
@@ -33,6 +34,7 @@ public class BankControllerTest {
     }
 
 
+    @SuppressWarnings("null")
     @Test
     @DisplayName("Getting balance through controller method call")
     void getBalanceTestOK() throws Exception {
@@ -40,13 +42,14 @@ public class BankControllerTest {
     }
 
 
+    @SuppressWarnings("null")
     @Test
     @DisplayName("Getting authorized overwithdrawal through controller method call")
     void getOverWithdrawalTestOK() throws Exception {
         assertEquals(BigDecimal.ZERO, bankController.getAuthorizedOverwithdrawal().getBody().get("Authorized overwithdrawal"));
     }
 
-
+    @SuppressWarnings("null")
     @Test
     @DisplayName("put deposit through controller method call")
     void putDepositTestOK() throws Exception {
@@ -55,6 +58,7 @@ public class BankControllerTest {
         assertEquals(BigDecimal.valueOf(20), balance);
     }
 
+    @SuppressWarnings("null")
     @Test
     @DisplayName("put deposit of an incorrect amount through controller method call")
     void putDepositTestKO() throws Exception {
@@ -64,6 +68,7 @@ public class BankControllerTest {
     }
 
 
+    @SuppressWarnings("null")
     @Test
     @DisplayName("get withdrawal through controller method call")
     void getWithdrawalTestOK() throws Exception {
@@ -77,6 +82,7 @@ public class BankControllerTest {
         assertEquals(BigDecimal.ZERO, balance);
     }
 
+    @SuppressWarnings("null")
     @Test
     @DisplayName("get withdrawal of an incorrect amount through controller method call")
     void getWithdrawalTestKO() throws Exception {
@@ -95,6 +101,7 @@ public class BankControllerTest {
        
     }
 
+    @SuppressWarnings("null")
     @Test
     @DisplayName("update overwithdrawal through api call OK, and check that the update has been made")
     void putOverwithdrawalTestOK() throws Exception {
@@ -108,10 +115,10 @@ public class BankControllerTest {
         assertEquals(BigDecimal.valueOf(100), authorizedOverwithdrawal);
     }
 
+    @SuppressWarnings("null")
     @Test
     @DisplayName("update overwithdrawal through api call KO")
     void putOverwithdrawalTestKO() throws Exception {
-        
         BigDecimal authorizedOverwithdrawal = (BigDecimal) bankController.getAuthorizedOverwithdrawal().getBody().get("Authorized overwithdrawal");
         assertEquals(BigDecimal.ZERO, authorizedOverwithdrawal);
 
