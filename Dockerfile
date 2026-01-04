@@ -12,4 +12,4 @@ RUN mvn clean install -Dmaven.test.skip
 EXPOSE 8080
 
 # Launches the application
-ENTRYPOINT ["java","-jar","target/bank-account.jar"]
+ENTRYPOINT ["java","-jar","application/target/application-1.0.0.jar"]

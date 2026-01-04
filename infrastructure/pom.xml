@@ -74,6 +74,12 @@
             <version>4.33.0</version>
         </dependency>
 
+        <dependency>
+			<groupId>com.bank</groupId>
+			<artifactId>adapters</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
     </dependencies>
 
     <build>
@@ -83,11 +89,10 @@
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <version>4.33.0</version>
                 <configuration>
-                    <changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
-                    <diffChangeLogFile>src/main/resources/db/changelog/${maven.build.timestamp}_changelog.yaml</diffChangeLogFile>
+                    <changeLogFile>src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
+                    <diffChangeLogFile>src/main/resources/db/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                     <driver>org.postgresql.Driver</driver>
-                    <url>jdbc:postgresql://localhost:5432/bank</url>
-                    <defaultSchemaName />
+                    <url>jdbc:postgresql://localhost:5432/bank_db</url>
                     <username>bank_user</username>
                     <password>mypassword</password>
                     <referenceUrl>hibernate:spring:dev.cyberjar?dialect=org.hibernate.dialect.PostgreSQLDialect

@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.springframework.http.MediaType;
 
 
-@SpringBootTest(classes = com.bank.adapters.BankApplication.class)
+@SpringBootTest(classes = com.bank.BankApplication.class)
 @AutoConfigureMockMvc
 public class BankControllerTestIntegration {
 
@@ -25,7 +25,7 @@ public class BankControllerTestIntegration {
     @DisplayName("Getting account number through api call")
     void getAccountNumberTestOK() throws Exception {
         
-        mockMvc.perform(get("/bank/account/accountNumber"))
+        mockMvc.perform(get("app/v1/bank/account/accountNumber"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$['Account number']").exists());
     }
@@ -35,7 +35,7 @@ public class BankControllerTestIntegration {
     @DisplayName("Getting balance through api call")
     void getBalanceTestOK() throws Exception {
         
-        mockMvc.perform(get("/bank/account/balance"))
+        mockMvc.perform(get("app/v1/bank/account/balance"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$['Balance']").value(0));
     }
@@ -45,7 +45,7 @@ public class BankControllerTestIntegration {
     @DisplayName("Getting authorized overwithdrawal through api call")
     void getOverWithdrawalTestOK() throws Exception {
         
-        mockMvc.perform(get("/bank/account/authorizedOverwithdrawal"))
+        mockMvc.perform(get("app/v1/bank/account/authorizedOverwithdrawal"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$['Authorized overwithdrawal']").value(0));
     }
@@ -58,7 +58,7 @@ public class BankControllerTestIntegration {
         
         String body = "{ \"amount\" : 99.99, \"label\" : \"cash\"} ";
 
-        mockMvc.perform(put("/bank/account/deposit")
+        mockMvc.perform(put("app/v1/bank/account/deposit")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(body))
                 .andExpect(status().isOk())
@@ -72,7 +72,7 @@ public class BankControllerTestIntegration {
         
         String body = "{ \"amount\" : -99.99, \"label\" : \"cash\"} ";
 
-        mockMvc.perform(put("/bank/account/deposit")
+        mockMvc.perform(put("app/v1/bank/account/deposit")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(body))
                 .andExpect(status().is(400))
@@ -80,7 +80,7 @@ public class BankControllerTestIntegration {
 
         body = "{ \"amount\" : 0, \"label\" : \"cash\"} ";   
         
-        mockMvc.perform(put("/bank/account/deposit")
+        mockMvc.perform(put("app/v1/bank/account/deposit")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(body))
                 .andExpect(status().is(400))
@@ -95,13 +95,13 @@ public class BankControllerTestIntegration {
         
         String body = "{ \"amount\" : 99.99, \"label\" : \"cash\"} ";
 
-        mockMvc.perform(put("/bank/account/deposit")
+        mockMvc.perform(put("app/v1/bank/account/deposit")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(body))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$['New balance']").value(99.99));
 
-        mockMvc.perform(put("/bank/account/withdraw")
+        mockMvc.perform(put("app/v1/bank/account/withdraw")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(body))
                 .andExpect(status().isOk())
@@ -115,7 +115,7 @@ public class BankControllerTestIntegration {
         
         String body = "{ \"amount\" : -99.99, \"label\" : \"cash\"} ";
 
-        mockMvc.perform(put("/bank/account/withdraw")
+        mockMvc.perform(put("app/v1/bank/account/withdraw")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(body))
                 .andExpect(status().is(400))
@@ -123,7 +123,7 @@ public class BankControllerTestIntegration {
 
         body = "{ \"amount\" : 0, \"label\" : \"cash\"} ";   
         
-        mockMvc.perform(put("/bank/account/withdraw")
+        mockMvc.perform(put("app/v1/bank/account/withdraw")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(body))
                 .andExpect(status().is(400))
@@ -131,7 +131,7 @@ public class BankControllerTestIntegration {
 
         body = "{ \"amount\" : 10, \"label\" : \"cash\"} ";   
         
-        mockMvc.perform(put("/bank/account/withdraw")
+        mockMvc.perform(put("app/v1/bank/account/withdraw")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(body))
                 .andExpect(status().is(400))
@@ -145,14 +145,14 @@ public class BankControllerTestIntegration {
         
         String body = "99.99";
 
-        mockMvc.perform(put("/bank/account/authorizedOverwithdrawal")
+        mockMvc.perform(put("app/v1/bank/account/authorizedOverwithdrawal")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(body))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$['New authorized overwithdrawal']").value(99.99))
                 .andExpect(jsonPath("$['Message']").value("Overwithdrawal updated successfully"));
 
-        mockMvc.perform(get("/bank/account/authorizedOverwithdrawal"))
+        mockMvc.perform(get("app/v1/bank/account/authorizedOverwithdrawal"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$['Authorized overwithdrawal']").value(99.99));
     }
@@ -164,7 +164,7 @@ public class BankControllerTestIntegration {
         
         String body = "-99.99";
 
-        mockMvc.perform(put("/bank/account/authorizedOverwithdrawal")
+        mockMvc.perform(put("app/v1/bank/account/authorizedOverwithdrawal")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(body))
                 .andExpect(status().is(400))

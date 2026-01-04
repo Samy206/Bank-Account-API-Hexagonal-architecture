@@ -1,42 +1,40 @@
-package com.bank.domain;
+package com.bank.adapters.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class Operation {
-
+public class OperationDTO {
     private LocalDate date;
     private BigDecimal amount;
     private String label;
 
-    // Default constructor required for Jackson deserialization
-    public Operation() {
-        this.date = LocalDate.now();
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    public Operation(LocalDate date, BigDecimal amount, String label) {
+    public OperationDTO(LocalDate date, BigDecimal amount, String label) {
+
         if(date == null) {
             this.date = LocalDate.now();
+        } else {
+            this.date = date;
         }
 
-        this.date = date;
+
         this.amount = amount;
         this.label = label;
     }
 
-
-    public Operation(BigDecimal amount, String label) {
-        this.date = LocalDate.now();
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public void setLabel(String label) {
         this.label = label;
     }
 
     public LocalDate getDate() {
         return date;
-    }
-
-    public void setDate(LocalDate localDate) {
-        date = localDate;
     }
 
     public BigDecimal getAmount() {
@@ -46,5 +44,4 @@ public class Operation {
     public String getLabel() {
         return label;
     }
-
 }

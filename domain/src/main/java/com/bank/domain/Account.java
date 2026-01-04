@@ -13,7 +13,7 @@ public class Account implements Comparable<Account> {
 
     protected String accountNumber;
     protected BigDecimal balance = BigDecimal.ZERO;
-
+    protected AccountType accountType = AccountType.CURRENT_ACCOUNT;
     protected List<Operation> operations;
 
     /*
@@ -50,7 +50,11 @@ public class Account implements Comparable<Account> {
         this.accountNumber = accountNumber;
         this.authorizedOverdraw = new BigDecimal(0);;
         this.operations = new ArrayList<>();
-        deposit(LocalDate.now(), initialBalance);
+        if(initialBalance.compareTo(BigDecimal.ZERO) > 0) {
+            deposit(LocalDate.now(), initialBalance);
+        } else {
+            this.balance = initialBalance;
+        }
     }
 
     public String getAccountNumber() {
@@ -69,6 +73,14 @@ public class Account implements Comparable<Account> {
         return overdraw;
     }
 
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
+
     /**
      * Setting up authorized overwithdrawal
      * @param authorizedOverdraw
@@ -78,6 +90,17 @@ public class Account implements Comparable<Account> {
             throw new IllegalArgumentException("The authorized overdraw have to be positive");
         }
         this.authorizedOverdraw = authorizedOverdraw;
+    }
+
+    /**
+     * Setting up  overwithdrawal
+     * @param overdraw
+     */
+    public void setOverdraw(BigDecimal overdraw) {
+        if (overdraw.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("The overdraw have to be positive");
+        }
+        this.overdraw = overdraw;
     }
 
     /**

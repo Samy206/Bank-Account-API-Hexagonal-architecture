@@ -3,15 +3,17 @@ package com.bank;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.bank.domain.MonthlyReview;
-import com.bank.domain.Operation;
-import com.bank.adapters.AccountService;
+import com.bank.adapters.dto.MonthlyReviewDTO;
+import com.bank.adapters.dto.OperationDTO;
+
+import com.bank.infrastructure.services.AccountServiceDatabase;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +21,10 @@ import org.slf4j.LoggerFactory;
 @RestController
 @RequestMapping("app/v1/bank/account")
 public class BankController {
-    
-    private AccountService accountService = new AccountService();
+
+    @Autowired
+    private AccountServiceDatabase accountServiceDatabase;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(BankController.class);
     /**
      * Get request : searching for account number
@@ -30,7 +34,7 @@ public class BankController {
     public ResponseEntity<Map<String, Object>> getAccountNumber() {
         LOGGER.info("Account number asked and sent successfully");
         return ResponseEntity.ok(
-            Map.of("Account number", accountService.getAccountNumber())
+            Map.of("Account number", accountServiceDatabase.getAccountNumber())
         );
         
     }
@@ -40,9 +44,10 @@ public class BankController {
      * @return JSON entity with the monthly review
      */
     @GetMapping(value = "/monthlyReview", headers = "X-API-VERSION=1")
-    public ResponseEntity<MonthlyReview> getMonthlyReview() {
+    public ResponseEntity<MonthlyReviewDTO> getMonthlyReview() {
         LOGGER.info("Monthly review asked and sent successfully");
-        return ResponseEntity.ok(accountService.getMonthlyOperations());
+        MonthlyReviewDTO monthlyReviewDTO = accountServiceDatabase.getMonthlyOperations();
+        return ResponseEntity.ok(monthlyReviewDTO);
     }
 
     /**
@@ -53,7 +58,7 @@ public class BankController {
     public ResponseEntity<Map<String, Object>> getBalance() {
         LOGGER.info("Balance asked and sent successfully");
         return ResponseEntity.ok(
-            Map.of("Balance", accountService.getBalance())
+            Map.of("Balance", accountServiceDatabase.getBalance())
         );
     }
 
@@ -65,7 +70,7 @@ public class BankController {
     public ResponseEntity<Map<String, Object>> getAuthorizedOverwithdrawal() {
         LOGGER.info("Authorized overwithdrawal asked and sent successfully");
         return ResponseEntity.ok(
-            Map.of("Authorized overwithdrawal", accountService.getAuthorizedOverdraw())
+            Map.of("Authorized overwithdrawal", accountServiceDatabase.getAuthorizedOverdraw())
         );
     }
 
@@ -76,10 +81,10 @@ public class BankController {
      * @return JSON entity with the state of the process error/success
      */
     @PatchMapping(value = "/deposit", headers = "X-API-VERSION=1")
-    public ResponseEntity<Map<String, Object>> deposit(@RequestBody(required = true) Operation operation) {
+    public ResponseEntity<Map<String, Object>> deposit(@RequestBody(required = true) OperationDTO operation) {
 
         try {
-            accountService.deposit(operation.getDate(), operation.getAmount());
+            accountServiceDatabase.deposit(operation.getDate(), operation.getAmount());
             LOGGER.info("Deposit of {} made successfully", operation.getAmount());
         } catch (IllegalArgumentException e) {
             LOGGER.error("Deposit failed due to invalid amount: {}", operation.getAmount());
@@ -92,7 +97,7 @@ public class BankController {
         
         return ResponseEntity.ok(
             Map.of(
-                "New balance", accountService.getBalance(),
+                "New balance", accountServiceDatabase.getBalance(),
                 "Message", "Deposit made successfully"
             )    
         );
@@ -105,10 +110,10 @@ public class BankController {
      * @return JSON entity with the state of the process error/success
      */
     @PatchMapping(value = "/withdraw", headers = "X-API-VERSION=1")
-    public ResponseEntity<Map<String, Object>> withdraw(@RequestBody (required = true) Operation operation) {
+    public ResponseEntity<Map<String, Object>> withdraw(@RequestBody (required = true) OperationDTO operation) {
 
         try {
-            accountService.withdraw(operation.getDate(), operation.getAmount(), operation.getLabel());
+            accountServiceDatabase.withdraw(operation.getDate(), operation.getAmount(), operation.getLabel());
             LOGGER.info("Withdrawal of {} made successfully", operation.getAmount());
         } catch (IllegalArgumentException e) {
             LOGGER.error("Withdrawal failed due to invalid amount: {}", operation.getAmount());
@@ -121,7 +126,7 @@ public class BankController {
         
         return ResponseEntity.ok(
             Map.of(
-                "New balance", accountService.getBalance(),
+                "New balance", accountServiceDatabase.getBalance(),
                 "Message", "Withdrawal made successfully"
             )    
         );
@@ -136,7 +141,7 @@ public class BankController {
     public ResponseEntity<Map<String, Object>> changeAuthorizedWithdrawal(@RequestBody(required = true) BigDecimal amount) {
 
         try {
-            accountService.setAuthorizedOverdraw(amount);
+            accountServiceDatabase.setAuthorizedOverdraw(amount);
             LOGGER.info("Authorized overwithdrawal updated successfully to {}", amount);
         } catch (IllegalArgumentException e) {
             LOGGER.error("Failed to update authorized overwithdrawal due to invalid amount: {}", amount);
@@ -149,7 +154,7 @@ public class BankController {
         
         return ResponseEntity.ok(
             Map.of(
-                "New authorized overwithdrawal", accountService.getAuthorizedOverdraw(),
+                "New authorized overwithdrawal", accountServiceDatabase.getAuthorizedOverdraw(),
                 "Message", "Overwithdrawal updated successfully"
             )    
         );
