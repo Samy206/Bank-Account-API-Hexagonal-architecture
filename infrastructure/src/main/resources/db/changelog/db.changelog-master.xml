@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>	
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/pro
+        http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+
+    <changeSet id="1-create-account-table" author="samyb"> 
+
+        <createTable tableName="account">
+            <column name="account_number" type="VARCHAR(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="balance" type="DECIMAL(19,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="authorized_overdraw" type="DECIMAL(19,2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="overdraw" type="DECIMAL(19,2)">
+                <constraints nullable="true"/>
+            </column>
+            
+        </createTable>  
+    </changeSet>
+
+    <changeSet id="2-create-operation-table" author="samyb">
+        <createTable tableName="operation">
+            <column name="operation_id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="account_number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="DECIMAL(19,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="label" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3-create-operation-sequence" author="samyb">
+        <createSequence sequenceName="operation_seq" startValue="1"/>
+    </changeSet> 
+
+    <changeSet id="4-addForeignKeyConstraint" author="samyb">
+        <addForeignKeyConstraint  baseColumnNames="account_number"
+                baseTableName="operation"
+                constraintName="fk_account_number"
+                deferrable="true"
+                initiallyDeferred="true"
+                onDelete="CASCADE"
+                onUpdate="RESTRICT"
+                referencedColumnNames="account_number"
+                referencedTableName="account"
+                validate="false"/>
+  </changeSet>
+
+  <changeSet id="5-initializeAccountForTests" author="samyb">
+        <insert tableName="account">
+            <column name="account_number" value="1"/>
+            <column name="balance" valueNumeric="0.00"/>
+            <column name="account_type" value="CURRENT_ACCOUNT"/>
+            <column name="authorized_overdraw" valueNumeric="0.00"/>
+            <column name="overdraw" valueNumeric="0.00"/>
+        </insert>
+  </changeSet>
+
+</databaseChangeLog>            

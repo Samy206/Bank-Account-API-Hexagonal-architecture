@@ -1,0 +1,19 @@
+---
+image: dokku/ci-docker-image
+
+stages:
+  - build
+
+build:
+  stage: build
+  only:
+    - main
+  script: |
+    # build the image
+    docker compose up --build -d.
+
+    # login to docker hub
+    # echo "$DOCKERHUB_TOKEN" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+
+    # push the image
+    # docker push "$CI_PROJECT_PATH_SLUG:$CI_COMMIT_SHA"

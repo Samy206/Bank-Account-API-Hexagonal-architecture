@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "88944f53-80a2-44c1-871a-5fca62ae2620",
-		"name": "Bank account postman",
+		"name": "Bank",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "47500770",
 		"_collection_link": "https://samy-boumali-8850462.postman.co/workspace/Testing101's-Workspace~915cbacb-e174-40ca-8287-8210ada42985/collection/47500770-88944f53-80a2-44c1-871a-5fca62ae2620?action=share&source=collection_link&creator=47500770"
@@ -11,7 +11,23 @@
 			"name": "Get balance",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [
+					{
+						"key": "X-API-VERSION",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}bank/account/balance",
+					"host": [
+						"{{baseURL}}bank"
+					],
+					"path": [
+						"account",
+						"balance"
+					]
+				}
 			},
 			"response": []
 		},
@@ -19,7 +35,23 @@
 			"name": "AccountNumber",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [
+					{
+						"key": "X-API-VERSION",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}bank/account/accountNumber",
+					"host": [
+						"{{baseURL}}bank"
+					],
+					"path": [
+						"account",
+						"accountNumber"
+					]
+				}
 			},
 			"response": []
 		},
@@ -27,7 +59,23 @@
 			"name": "MonthlyReview",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [
+					{
+						"key": "X-API-VERSION",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}bank/account/monthlyReview",
+					"host": [
+						"{{baseURL}}bank"
+					],
+					"path": [
+						"account",
+						"monthlyReview"
+					]
+				}
 			},
 			"response": []
 		},
@@ -35,33 +83,131 @@
 			"name": "AuthorizedOverwithdrawal",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [
+					{
+						"key": "X-API-VERSION",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}bank/account/authorizedOverwithdrawal",
+					"host": [
+						"{{baseURL}}bank"
+					],
+					"path": [
+						"account",
+						"authorizedOverwithdrawal"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Deposit",
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "X-API-VERSION",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"amount\" : 99.99,\r\n        \"label\" : \"cash\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}bank/account/deposit",
+					"host": [
+						"{{baseURL}}bank"
+					],
+					"path": [
+						"account",
+						"deposit"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Withdraw",
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "X-API-VERSION",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"date\" : \"2025-11-21\",    \r\n        \"amount\" : 99.99,\r\n        \"label\" : \"Phone\"\r\n        \r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}bank/account/withdraw",
+					"host": [
+						"{{baseURL}}bank"
+					],
+					"path": [
+						"account",
+						"withdraw"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Change authorized over withdrawal",
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "X-API-VERSION",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "100.50",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}bank/account/authorizedOverwithdrawal",
+					"host": [
+						"{{baseURL}}bank"
+					],
+					"path": [
+						"account",
+						"authorizedOverwithdrawal"
+					]
+				}
 			},
 			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "",
+			"type": "default"
 		}
 	]
 }
