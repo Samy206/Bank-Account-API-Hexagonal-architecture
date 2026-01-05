@@ -61,7 +61,6 @@ public class SavingAccount extends Account{
         Operation operation = new Operation(date, amount, "New deposit");
         operations.add(operation);
 
-        
         return this.balance;
     }
     

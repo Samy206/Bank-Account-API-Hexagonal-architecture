@@ -32,22 +32,41 @@ public class AccountServiceDatabase {
         this.bankMapper = bankMapper;
     }
 
+    /**
+     * Calling entityManager to get default account number
+     * @return Account number
+     */
     public String getAccountNumber() {
         return infrastructureRepository.findDefaultAccount().get().toDomain().getAccountNumber();
     }
 
+    /**
+     * Calling entityManager to get default balance
+     * @return balance
+     */
     public BigDecimal getBalance() {
         return infrastructureRepository.findDefaultAccount().get().toDomain().getBalance();
     }
 
+    /**
+     * Calling entityManager to get default authorized over withdrawal
+     * @return over withdrawal
+     */
     public BigDecimal getAuthorizedOverdraw() {
         return infrastructureRepository.findDefaultAccount().get().toDomain().getAuthorizedOverdraw();
     }
 
+    /**
+     * Calling entityManager to get default overdraw
+     * @return overdraw
+     */
     public BigDecimal getOverdraw() {
         return infrastructureRepository.findDefaultAccount().get().toDomain().getOverdraw();
     }
 
+    /**
+     * Calling entityManager to update the authorized overdraw
+     */
     public void setAuthorizedOverdraw(BigDecimal authorizedOverdraw) {
         AccountEntity accountEntity = infrastructureRepository.findDefaultAccount().get();
         Account accountToUpdate = accountEntity.toDomain();
@@ -58,6 +77,9 @@ public class AccountServiceDatabase {
         infrastructureRepository.save(accountEntity);
     }
 
+    /**
+     * Calling entityManager to make a deposit, save the account and a new operation
+     */
     public BigDecimal deposit(LocalDate date, BigDecimal amount) throws IllegalArgumentException {
         AccountEntity accountEntity = infrastructureRepository.findDefaultAccount().get();
         Account accountToUpdate = accountEntity.toDomain();
@@ -73,6 +95,9 @@ public class AccountServiceDatabase {
         return newBalance;
     }
 
+    /**
+     * Calling entityManager to make a withdrawal, save the account and a new operation
+     */
     public BigDecimal withdraw(LocalDate date, BigDecimal amount, String label) throws IllegalArgumentException {
         AccountEntity accountEntity = infrastructureRepository.findDefaultAccount().get();
         Account accountToUpdate = accountEntity.toDomain();
@@ -88,6 +113,10 @@ public class AccountServiceDatabase {
         return newBalance;
     }
 
+    /**
+     * Calling entityManager to get operations within a month and form a MonthlyReviewDTO
+     * @return MonthlyReviewDTO
+     */
     public MonthlyReviewDTO getMonthlyOperations() {
         List<OperationDTO> operationsThisMonth = infrastructureRepository.findOperationsByMonthAndYear().stream()
          .map(opEntity -> {
@@ -100,16 +129,4 @@ public class AccountServiceDatabase {
                                                        account.getBalance(),
                                                        account.getAccountType());
     }
-
-    public void saveOperation(Operation operation, AccountEntity accountEntity) {
-        OperationEntity operationEntity = new OperationEntity();
-        operationEntity = operationEntity.fromDomain(operation);
-        operationEntity.setAccountEntity(accountEntity);
-        infrastructureRepository.saveOperation(operationEntity);
-        System.out.println("Operation saved with ID: " + operationEntity.getDate());
-    }
-
-
-
-
 }

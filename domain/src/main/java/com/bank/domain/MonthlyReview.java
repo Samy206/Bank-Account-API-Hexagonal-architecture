@@ -5,17 +5,16 @@ import com.bank.domain.enums.AccountType;
 
 public class MonthlyReview {
 
-    private List<Operation> operations;
-    private BigDecimal balance;
+    private final List<Operation> operations;
+    private final BigDecimal balance;
 
-    private AccountType accountType;
+    private final AccountType accountType;
 
     public MonthlyReview(List<Operation> operations, BigDecimal balance, AccountType accountType) {
         this.operations = operations;
         this.balance = balance;
         this.accountType = accountType;
     }
-
 
     public List<Operation> getOperations() {
         return operations;

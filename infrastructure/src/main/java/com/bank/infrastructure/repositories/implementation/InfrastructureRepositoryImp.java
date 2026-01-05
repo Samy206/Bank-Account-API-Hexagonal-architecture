@@ -27,13 +27,8 @@ public class InfrastructureRepositoryImp implements InfrastructureRepository {
     }
 
     @Override
-    public AccountEntity save(AccountEntity account) {
-        return entityManager.merge(account);
-    }
-
-    @Override
-    public void saveOperation(OperationEntity operationEntity) {
-        entityManager.persist(operationEntity);
+    public void save(AccountEntity account) {
+        entityManager.merge(account);
     }
 
     @Override

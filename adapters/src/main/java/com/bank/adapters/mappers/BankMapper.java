@@ -10,7 +10,9 @@ import com.bank.domain.Account;
 import com.bank.domain.MonthlyReview;
 import com.bank.domain.Operation;
 
-
+/**
+ * Mapper for the domain into DTO objects
+ */
 @Mapper(componentModel = "spring")
 public interface BankMapper {
 
@@ -53,8 +55,8 @@ public interface BankMapper {
 
         /**
      * Convert MonthlyReview to MonthlyReviewDTO
-     * @param monthlyReview
-     * @return MonthlyReviewDTO
+     * @param monthlyReviewDTO
+     * @return MonthlyReview
      */
     MonthlyReview toMonthlyReview(MonthlyReviewDTO monthlyReviewDTO);
 

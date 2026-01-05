@@ -7,10 +7,23 @@ import com.bank.infrastructure.entities.OperationEntity;
 import java.util.Optional;
 
 public interface InfrastructureRepository {
-
+    /**
+     * Get the only account injected via liquibase
+     * @return default account
+     */
     Optional<AccountEntity> findDefaultAccount();
-    AccountEntity save(AccountEntity accountEntity);
-    void saveOperation(OperationEntity operationEntity);
+
+    /**
+     * Update the default account in the database
+     * @param accountEntity
+     */
+    void save(AccountEntity accountEntity);
+
+
+    /**
+     * Gets the operation within a month
+     * @return list of  monthly operation
+     */
     List<OperationEntity> findOperationsByMonthAndYear();
     
 }

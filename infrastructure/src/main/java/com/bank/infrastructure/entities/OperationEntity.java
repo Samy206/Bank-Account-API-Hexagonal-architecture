@@ -34,7 +34,8 @@ public class OperationEntity {
     @JoinColumn(name = "account_number")
     @ManyToOne
     private AccountEntity accountEntity;
-    
+
+    /* Utility methods and conversion to and from domain */
     public LocalDate getDate() {
         return date;
     }

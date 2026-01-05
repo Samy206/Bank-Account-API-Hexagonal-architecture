@@ -22,7 +22,6 @@ import jakarta.persistence.EnumType;
 @Table(name = "account")
 public class AccountEntity {
 
-
     @Id  
     @GeneratedValue( strategy=GenerationType.IDENTITY )
     protected String accountNumber;
@@ -38,6 +37,7 @@ public class AccountEntity {
     protected BigDecimal authorizedOverdraw;
     protected BigDecimal overdraw;
 
+    /* Utility methods and conversion to and from domain */
     public void addOperation(OperationEntity operationEntity) {
         if(operations == null) {
             operations = new ArrayList<OperationEntity>();

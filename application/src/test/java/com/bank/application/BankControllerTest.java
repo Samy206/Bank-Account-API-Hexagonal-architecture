@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -29,35 +30,31 @@ public class BankControllerTest {
     @Autowired
     private BankController bankController;
 
-    @SuppressWarnings("null")
     @Test
     @DisplayName("Getting account number through controller method call")
     void getAccountNumberTestOK() throws Exception {
-        assertNotNull(bankController.getAccountNumber().getBody().get("Account number"));
+        assertNotNull(Objects.requireNonNull(bankController.getAccountNumber().getBody()).get("Account number"));
     }
 
 
-    @SuppressWarnings("null")
     @Test
     @DisplayName("Getting balance through controller method call")
     void getBalanceTestOK() throws Exception {
-        assertEquals(BigDecimal.ZERO.setScale(2, RoundingMode.CEILING), bankController.getBalance().getBody().get("Balance"));
+        assertEquals(BigDecimal.ZERO.setScale(2, RoundingMode.CEILING), Objects.requireNonNull(bankController.getBalance().getBody()).get("Balance"));
     }
 
 
-    @SuppressWarnings("null")
     @Test
     @DisplayName("Getting authorized overwithdrawal through controller method call")
     void getOverWithdrawalTestOK() throws Exception {
-        assertEquals(BigDecimal.ZERO.setScale(2, RoundingMode.CEILING), bankController.getAuthorizedOverwithdrawal().getBody().get("Authorized overwithdrawal"));
+        assertEquals(BigDecimal.ZERO.setScale(2, RoundingMode.CEILING), Objects.requireNonNull(bankController.getAuthorizedOverwithdrawal().getBody()).get("Authorized overwithdrawal"));
     }
 
-    @SuppressWarnings("null")
     @Test
     @DisplayName("put deposit through controller method call")
     void putDepositTestOK() throws Exception {
         OperationDTO operation = new OperationDTO(LocalDate.now(), BigDecimal.valueOf(20), "cash");
-        BigDecimal balance = (BigDecimal) bankController.deposit(operation).getBody().get("New balance");
+        BigDecimal balance = (BigDecimal) Objects.requireNonNull(bankController.deposit(operation).getBody()).get("New balance");
         assertEquals(BigDecimal.valueOf(20).setScale(2, RoundingMode.CEILING), balance);
     }
 
@@ -66,7 +63,7 @@ public class BankControllerTest {
     @DisplayName("put deposit of an incorrect amount through controller method call")
     void putDepositTestKO() throws Exception {
         OperationDTO operation = new OperationDTO(LocalDate.now(), BigDecimal.valueOf(-20), "cash");
-        BigDecimal balance = (BigDecimal) Optional.ofNullable(bankController.deposit(operation).getBody().get("New balance")).orElse(null);
+        BigDecimal balance = (BigDecimal) bankController.deposit(operation).getBody().get("New balance");
         assertNull(balance);
     }
 
@@ -77,11 +74,11 @@ public class BankControllerTest {
     void getWithdrawalTestOK() throws Exception {
         
         OperationDTO operation = new OperationDTO(LocalDate.now(), BigDecimal.valueOf(20), "cash");
-        BigDecimal balance = (BigDecimal) bankController.deposit(operation).getBody().get("New balance");
+        BigDecimal balance = (BigDecimal) Objects.requireNonNull(bankController.deposit(operation).getBody()).get("New balance");
         assertEquals(BigDecimal.valueOf(20).setScale(2, RoundingMode.CEILING), balance);
 
         
-        balance = (BigDecimal) bankController.withdraw(operation).getBody().get("New balance");
+        balance = (BigDecimal) Objects.requireNonNull(bankController.withdraw(operation).getBody()).get("New balance");
         assertEquals(BigDecimal.ZERO.setScale(2, RoundingMode.CEILING), balance);
     }
 
@@ -108,10 +105,10 @@ public class BankControllerTest {
     @Test
     @DisplayName("update overwithdrawal through api call OK, and check that the update has been made")
     void putOverwithdrawalTestOK() throws Exception {
-        BigDecimal authorizedOverwithdrawal = (BigDecimal) bankController.getAuthorizedOverwithdrawal().getBody().get("Authorized overwithdrawal");
+        BigDecimal authorizedOverwithdrawal = (BigDecimal) Objects.requireNonNull(bankController.getAuthorizedOverwithdrawal().getBody()).get("Authorized overwithdrawal");
         assertEquals(BigDecimal.ZERO.setScale(2, RoundingMode.CEILING), authorizedOverwithdrawal);
 
-        authorizedOverwithdrawal = (BigDecimal) bankController.changeAuthorizedWithdrawal(BigDecimal.valueOf(100)).getBody().get("New authorized overwithdrawal");
+        authorizedOverwithdrawal = (BigDecimal) Objects.requireNonNull(bankController.changeAuthorizedWithdrawal(BigDecimal.valueOf(100)).getBody()).get("New authorized overwithdrawal");
         assertEquals(BigDecimal.valueOf(100).setScale(2, RoundingMode.CEILING), authorizedOverwithdrawal);
 
         authorizedOverwithdrawal = (BigDecimal) bankController.getAuthorizedOverwithdrawal().getBody().get("Authorized overwithdrawal");
@@ -122,7 +119,7 @@ public class BankControllerTest {
     @Test
     @DisplayName("update overwithdrawal through api call KO")
     void putOverwithdrawalTestKO() throws Exception {
-        BigDecimal authorizedOverwithdrawal = (BigDecimal) bankController.getAuthorizedOverwithdrawal().getBody().get("Authorized overwithdrawal");
+        BigDecimal authorizedOverwithdrawal = (BigDecimal) Objects.requireNonNull(bankController.getAuthorizedOverwithdrawal().getBody()).get("Authorized overwithdrawal");
         assertEquals(BigDecimal.ZERO.setScale(2, RoundingMode.CEILING), authorizedOverwithdrawal);
 
         authorizedOverwithdrawal = (BigDecimal) Optional.ofNullable(bankController.changeAuthorizedWithdrawal(BigDecimal.valueOf(-100)).getBody().get("New authorized overwithdrawal")).orElse(null);

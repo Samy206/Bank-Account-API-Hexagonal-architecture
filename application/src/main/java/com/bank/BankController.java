@@ -25,6 +25,7 @@ public class BankController {
     @Autowired
     private AccountServiceDatabase accountServiceDatabase;
 
+
     private static final Logger LOGGER = LoggerFactory.getLogger(BankController.class);
     /**
      * Get request : searching for account number
@@ -83,8 +84,10 @@ public class BankController {
     @PatchMapping(value = "/deposit", headers = "X-API-VERSION=1")
     public ResponseEntity<Map<String, Object>> deposit(@RequestBody(required = true) OperationDTO operation) {
 
+        BigDecimal balance ;
+
         try {
-            accountServiceDatabase.deposit(operation.getDate(), operation.getAmount());
+            balance = accountServiceDatabase.deposit(operation.getDate(), operation.getAmount());
             LOGGER.info("Deposit of {} made successfully", operation.getAmount());
         } catch (IllegalArgumentException e) {
             LOGGER.error("Deposit failed due to invalid amount: {}", operation.getAmount());
@@ -97,7 +100,7 @@ public class BankController {
         
         return ResponseEntity.ok(
             Map.of(
-                "New balance", accountServiceDatabase.getBalance(),
+                "New balance", balance,
                 "Message", "Deposit made successfully"
             )    
         );
@@ -112,8 +115,10 @@ public class BankController {
     @PatchMapping(value = "/withdraw", headers = "X-API-VERSION=1")
     public ResponseEntity<Map<String, Object>> withdraw(@RequestBody (required = true) OperationDTO operation) {
 
+        BigDecimal balance ;
+
         try {
-            accountServiceDatabase.withdraw(operation.getDate(), operation.getAmount(), operation.getLabel());
+            balance = accountServiceDatabase.withdraw(operation.getDate(), operation.getAmount(), operation.getLabel());
             LOGGER.info("Withdrawal of {} made successfully", operation.getAmount());
         } catch (IllegalArgumentException e) {
             LOGGER.error("Withdrawal failed due to invalid amount: {}", operation.getAmount());
@@ -126,7 +131,7 @@ public class BankController {
         
         return ResponseEntity.ok(
             Map.of(
-                "New balance", accountServiceDatabase.getBalance(),
+                "New balance", balance,
                 "Message", "Withdrawal made successfully"
             )    
         );

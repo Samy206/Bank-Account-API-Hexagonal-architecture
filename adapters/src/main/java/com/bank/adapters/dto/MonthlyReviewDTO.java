@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import com.bank.domain.enums.AccountType;
 
+/**
+ * MonthlyReviewDTO : needed getter and setter to be converted to JSON
+ */
 public class MonthlyReviewDTO {
 
     private List<OperationDTO> operations;

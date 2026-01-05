@@ -17,9 +17,9 @@ public class Operation {
     public Operation(LocalDate date, BigDecimal amount, String label) {
         if(date == null) {
             this.date = LocalDate.now();
+        } else {
+            this.date = date;
         }
-
-        this.date = date;
         this.amount = amount;
         this.label = label;
     }

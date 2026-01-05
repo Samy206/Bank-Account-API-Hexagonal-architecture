@@ -2,7 +2,11 @@ package com.bank.adapters.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
+/**
+ * OperationDTO : needed getter and setter to be converted to JSON
+ */
 public class OperationDTO {
     private LocalDate date;
     private BigDecimal amount;
@@ -13,14 +17,7 @@ public class OperationDTO {
     }
 
     public OperationDTO(LocalDate date, BigDecimal amount, String label) {
-
-        if(date == null) {
-            this.date = LocalDate.now();
-        } else {
-            this.date = date;
-        }
-
-
+        this.date = Objects.requireNonNullElseGet(date, LocalDate::now);
         this.amount = amount;
         this.label = label;
     }
